@@ -1,0 +1,24 @@
+﻿@using Microsoft.EntityFrameworkCore
+@using PS.Data
+
+@if (blackList != null)
+{
+    <EditForm Model="@blackList" OnValidSubmit="Save">
+        <CsValidation @ref="CsValidation" />
+        <DataAnnotationsValidator />
+
+        <div class="@(blackList.Saving ? "saving" : null)">
+            <div class="form-group mb-3">
+                <Label TItem="BlackList" aspfor="@nameof(BlackList.Url)" class="form-label small"></Label>
+                <InputText id="@nameof(BlackList.Url)" class="form-control auto-focus" maxlength="25" @bind-Value="@blackList.Url" />
+                <ValidationMessage For="@(() => blackList.Url)" class="small" />
+            </div>
+
+            <div class="d-grid gap-2">
+                <button type="submit" class="btn btn-fill btn-danger">
+                    <span>@(blackList.Saving ? "Saving..." : "Save")</span>
+                </button>
+            </div>
+        </div>
+    </EditForm>
+}

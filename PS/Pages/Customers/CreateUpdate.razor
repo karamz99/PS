@@ -1,0 +1,75 @@
+﻿@using Microsoft.EntityFrameworkCore
+@using PS.Data
+
+@if (customer != null)
+{
+    <EditForm Model="@customer" OnValidSubmit="Save">
+        <CsValidation @ref="CsValidation" />
+        <DataAnnotationsValidator />
+
+        <div class="@(customer.Saving ? "saving" : null)">
+            <div class="form-customer mb-3">
+                <Label TItem="Customer" aspfor="@nameof(Customer.GroupId)" class="form-label small"></Label>
+                <InputSelect id="@nameof(Customer.GroupId)" @bind-Value="@customer.GroupId" class="form-select">
+                    @if (groups == null)
+                    {
+                    <option selected>Loading...</option>
+                    }
+                    else if (!groups.Any())
+                    {
+                    <option selected>No groups!</option>
+                    }
+                    else
+                    {
+                    @foreach (var group in groups)
+                        {
+                        <option value="@group.Id">@group.Name</option>
+                        }
+                    }
+            </InputSelect>
+            <ValidationMessage For="@(() => customer.GroupId )" class="small" />
+        </div>
+
+
+        <div class="form-customer mb-3">
+            <Label TItem="Customer" aspfor="@nameof(Customer.Name)" class="form-label small"></Label>
+            <InputText id="@nameof(Customer.Name)" class="form-control" maxlength="25" @bind-Value="@customer.Name" />
+            <ValidationMessage For="@(() => customer.Name )" class="small" />
+        </div>
+
+        @if (Id > 0)
+            {
+                <div class="form-customer mb-3">
+                    <Label TItem="Customer" aspfor="@nameof(Customer.Username)" class="form-label small"></Label>
+                    <span class="form-control bg-light text-secondary" style="min-height:38px;">@customer?.Username</span>
+                </div>
+            }
+            else
+            {
+
+                <div class="form-customer mb-3">
+                    <Label TItem="Customer" aspfor="@nameof(Customer.Username)" class="form-label small"></Label>
+                    <InputText id="@nameof(Customer.Username)" class="form-control" maxlength="25" @bind-Value="@customer.Username" />
+                    <ValidationMessage For="@(() => customer.Name )" class="small" />
+                </div>
+                <div class="form-customer mb-3">
+                    <Label TItem="Customer" aspfor="@nameof(Customer.Password)" class="form-label small"></Label>
+                    <InputText id="@nameof(Customer.Password)" class="form-control" maxlength="25" type="password" @bind-Value="@customer.Password" />
+                    <ValidationMessage For="@(() => customer.Password )" class="small" />
+                </div>
+
+                <div class="form-customer mb-3">
+                    <Label TItem="Customer" aspfor="@nameof(Customer.PasswordConfirmation)" class="form-label small"></Label>
+                    <InputText id="@nameof(Customer.PasswordConfirmation)" class="form-control" maxlength="25" type="password" @bind-Value="@customer.PasswordConfirmation" />
+                    <ValidationMessage For="@(() => customer.PasswordConfirmation )" class="small" />
+                </div>
+            }
+
+            <div class="d-grid gap-2">
+                <button type="submit" class="btn btn-fill btn-danger">
+                    <span>@(customer.Saving ? "Saving..." : "Save")</span>
+                </button>
+            </div>
+        </div>
+    </EditForm>
+}

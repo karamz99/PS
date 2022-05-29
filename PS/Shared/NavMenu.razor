@@ -1,0 +1,73 @@
+﻿<div class="top-row ps-3 navbar navbar-dark">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="" style="font-weight: bolder;line-height: 20px;margin-top: -5px;">Mega Network<br />Control System</a>
+        <button title="Navigation menu" class="navbar-toggler" @onclick="ToggleNavMenu">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+    </div>
+</div>
+
+<AuthorizeView>
+    <Authorized>
+        <div class="@NavMenuCssClass" @onclick="ToggleNavMenu">
+            <nav class="flex-column">
+                <div class="nav-item px-3">
+                    <NavLink class="nav-link" href="Status">
+                        <span class="oi oi-bar-chart" aria-hidden="true"></span> Status
+                    </NavLink>
+                </div>
+                <div class="nav-item px-3">
+                    <NavLink class="nav-link" href="Groups">
+                        <span class="oi oi-book" aria-hidden="true"></span> Groups
+                    </NavLink>
+                </div>
+                <div class="nav-item px-3">
+                    <NavLink class="nav-link" href="Customers">
+                        <span class="oi oi-people" aria-hidden="true"></span> Customers
+                    </NavLink>
+                </div>
+                <div class="nav-item px-3">
+                    <NavLink class="nav-link cursor-pointer" @onclick="ToggleSettings" Match="NavLinkMatch.Prefix"> 
+                        <span class="oi oi-wrench" aria-hidden="true"></span> Settings
+                    </NavLink>
+                    <nav class="flex-column @SettingsCssClass" style="margin-left: 15px;border-left: 3px solid rgba(255,255,255,0.25);">
+                        <div class="nav-item p-0">
+                            <NavLink class="nav-link sub-link" href="Settings/Blacklist">
+                                <span class="oi oi-shield" aria-hidden="true"></span> Blacklist
+                            </NavLink>
+                        </div>
+@*                        <div class="nav-item p-0">
+                            <NavLink class="nav-link sub-link" href="Settings/Requests">
+                                <span class="oi oi-bar-chart" aria-hidden="true"></span> Requests
+                            </NavLink>
+                        </div>
+*@                        <div class="nav-item p-0">
+                            <NavLink class="nav-link sub-link" href="Settings/Sessions">
+                                <span class="oi oi-bar-chart" aria-hidden="true"></span> Sessions
+                            </NavLink>
+                        </div>
+                    </nav>
+                </div>
+            </nav>
+        </div>
+    </Authorized>
+</AuthorizeView>
+
+<style>
+    .sub-link {
+        height: 2rem !important;
+        padding-top: 0 !important;
+        padding-bottom: 0 !important;
+        border-radius: 0 4px 4px 0 !important;
+    }
+</style>
+
+@code {
+    private bool collapseNavMenu = true;
+    private string? NavMenuCssClass => collapseNavMenu ? "collapse" : null;
+    private void ToggleNavMenu() { collapseNavMenu = !collapseNavMenu; }
+
+    private bool collapseSettings = true;
+    private string? SettingsCssClass => collapseSettings ? "sub-link-hidden" : null;
+    private void ToggleSettings() { collapseSettings = !collapseSettings; }
+}

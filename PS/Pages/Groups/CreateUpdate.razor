@@ -1,0 +1,59 @@
+﻿@using Microsoft.EntityFrameworkCore
+@using PS.Data
+
+@if (group != null)
+{
+    <EditForm Model="@group" OnValidSubmit="Save">
+        <CsValidation @ref="CsValidation" />
+        <DataAnnotationsValidator />
+
+        <div class="@(group.Saving ? "saving" : null)">
+            <div class="form-group mb-3">
+                <Label TItem="Group" aspfor="@nameof(Group.Name)" class="form-label small"></Label>
+                <InputText id="@nameof(Group.Name)" class="form-control auto-focus" maxlength="25" @bind-Value="@group.Name" />
+                <ValidationMessage For="@(() => group.Name )" class="small" />
+            </div>
+
+            <div class="form-check form-switch">
+                <InputCheckbox @bind-Value="group.DataUsageControl" class="form-check-input" id="@nameof(Group.DataUsageControl)" />
+                <Label TItem="Group" aspfor="@nameof(Group.DataUsageControl)" class="form-label small mb-0"></Label>
+            </div>
+            <div class="form-group mb-3 @(group.DataUsageControl ? null : "saving")">
+                <Label TItem="Group" aspfor="@nameof(Group.DataUsage)" class="form-label small"></Label>
+                <div class="d-flex">
+                    <InputNumber id="@nameof(Group.DataUsage)" class="form-control me-1" @bind-Value="@group.DataUsage" />
+                    <InputSelect id="@nameof(Group.DataUsageUnit)" @bind-Value="@group.DataUsageUnit" class="form-select">
+                        @foreach (var unit in Enum.GetValues(typeof(DataUsageUnits)))
+                        {
+                        <option value="@unit">@unit</option>
+                        }
+                </InputSelect>
+            </div>
+            <ValidationMessage For="@(() => group.DataUsage)" class="small" />
+        </div>
+
+        <div class="form-check form-switch">
+            <InputCheckbox @bind-Value="group.TimeUsageControl" class="form-check-input" id="@nameof(Group.TimeUsageControl)" />
+            <Label TItem="Group" aspfor="@nameof(Group.TimeUsageControl)" class="form-label small mb-0"></Label>
+        </div>
+        <div class="d-flex mb-3 @(group.TimeUsageControl ? null : "saving")">
+            <div class="form-group me-1 w-50">
+                <Label TItem="Group" aspfor="@nameof(Group.TimeUsageStart)" class="form-label small"></Label>
+                <InputDate @bind-Value="@group.TimeUsageStart" Type="InputDateType.Time" class="form-control" />
+                <ValidationMessage For="@(() => group.TimeUsageStart )" class="small" />
+            </div>
+            <div class="form-group w-50">
+                <Label TItem="Group" aspfor="@nameof(Group.TimeUsageEnd)" class="form-label small"></Label>
+                <InputDate @bind-Value="@group.TimeUsageEnd" Type="InputDateType.Time" class="form-control" />
+                <ValidationMessage For="@(() => group.TimeUsageEnd )" class="small" />
+            </div>
+        </div>
+
+        <div class="d-grid gap-2">
+            <button type="submit" class="btn btn-fill btn-danger">
+                <span>@(group.Saving ? "Saving..." : "Save")</span>
+            </button>
+        </div>
+    </div>
+</EditForm>
+}

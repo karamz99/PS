@@ -1,0 +1,77 @@
+﻿@page "/Settings/Sessions"
+@using PS.Services
+@attribute [Authorize]
+<PageTitle>Sessions</PageTitle>
+
+<h3>Sessions</h3>
+@if (sessions == null)
+{
+    <h5>Loading sessions...</h5>
+}
+else if (!sessions.Any())
+{
+    <h5>No sessions!</h5>
+}
+else
+{
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Number</th>
+                <th>Date</th>
+                <th>Protocol</th>
+                <th>IP</th>
+                <th>DataSize</th>
+                <th>Url</th>
+            </tr>
+        </thead>
+        <tbody>
+
+            @foreach (var session in sessions)
+            {
+                <tr>
+                    <td>@session?.Number</td>
+                    <td>@session?.CreationDate</td>
+                    <td>@session?.Protocol</td>
+                    <td>@session?.ClientRemoteEndPoint.Address</td>
+                    <td>@session?.AllDataCount</td>
+                    <td><div class="url-column">@session?.Url</div></td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    <style>
+        .url-column {
+            max-width: 300px;
+            white-space: nowrap;
+            overflow: hidden;
+        }
+    </style>
+}
+
+
+@code {
+    List<SessionListItem> sessions;
+
+    protected override async Task OnInitializedAsync()
+    {
+        //sessions = ProxyService.Sessions.Where(x => x?.ClientRemoteEndPoint?.Address.ToString() != "127.0.0.1").OrderByDescending(x => x?.Number).ToList();
+        Refresh();
+    }
+
+    private async void Refresh()
+    {
+        try
+        {
+            sessions = ProxyService.Sessions.OrderByDescending(x => x?.Number).ToList();
+            InvokeAsync(StateHasChanged);
+        }
+        catch { }
+    }
+
+    protected override void OnAfterRender(bool firstRender)
+    {
+        if (firstRender)
+            ProxyService.SessionsChanged.Add(new EventCallback(this, Refresh));
+    }
+}

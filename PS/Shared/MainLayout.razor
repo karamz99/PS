@@ -1,0 +1,23 @@
+﻿@using Microsoft.EntityFrameworkCore
+@using PS.Core
+@using PS.Data
+@inherits LayoutComponentBase
+
+<PageTitle>ProxyServer</PageTitle>
+
+<div class="page">
+    <div class="sidebar">
+        <NavMenu />
+        <span>@Services.CustomerService.Customer?.Name</span>
+    </div>
+
+    <main>
+        <div class="top-row px-4 auth">
+            <LoginDisplay />
+        </div>
+
+        <article class="content px-4" style="min-height: Calc(100% - 56px);position:relative;">
+            @Body
+        </article>
+    </main>
+</div>

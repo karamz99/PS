@@ -1,0 +1,38 @@
+﻿@page "/Settings/Blacklist"
+@attribute [Authorize]
+<PageTitle>Blacklist</PageTitle>
+
+<h3>Blacklist <span class="small">@(blacklist?.Any() == true ? $"{blacklist.Count} url" : null)</span></h3>
+<div>
+    <button class="btn btn-link text-primary" @onclick="CreateUrl">New Url</button>
+</div>
+@if (blacklist == null)
+{
+    <h5>Loading blacklist...</h5>
+}
+else if (!blacklist.Any())
+{
+    <h5>Blacklist is empty!</h5>
+}
+else
+{
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Url</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var url in blacklist)
+            {
+                <tr>
+                    <td><button class="btn btn-link text-info" @onclick="@(_ => UpdateUrl(url))">@url.Url</button></td>
+                    <td class="text-end align-middle">
+                        <button class="btn btn-link text-danger" @onclick="@(_ => DeleteUrl(url))">Delete</button>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}

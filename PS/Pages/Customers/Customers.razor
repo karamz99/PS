@@ -1,0 +1,59 @@
+﻿<h3>
+    <span class="small">@(customers?.Any() == true ? $"{customers.Count} " : null)</span>Customers @(group == null ? null : $"in group {group.Name.ToLower()}")
+    @if (group != null)
+    {
+        <a class="text-info small ps-3" href="Customers">Show all</a>
+    }
+</h3>
+<div>
+    <button class="btn btn-link text-primary" @onclick="CreateCustomer">New Customer</button>
+</div>
+@if (customers == null)
+{
+    <h5>Loading customers...</h5>
+}
+else if (!customers.Any())
+{
+    <h5>No customers!</h5>
+}
+else
+{
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Customer name</th>
+                <th class="text-center">Group Name</th>
+                <th class="text-center">Sent</th>
+                <th class="text-center">Recieved</th>
+                <th class="text-center">Details</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var customer in customers)
+            {
+                <tr>
+                    <td><button class="btn btn-link text-info" @onclick="@(_ => UpdateCustomer(customer))">@customer.Name</button></td>
+                    <td class="text-center align-middle">@customer.Group?.Name</td>
+                    <td class="text-center align-middle">@customer.DataUsageSentFormated</td>
+                    <td class="text-center align-middle">@customer.DataUsageRecievedFormated</td>
+                    <td class="text-center align-middle">
+                        @customer.IP
+                        @if (!string.IsNullOrEmpty(customer.IP) && !string.IsNullOrEmpty(customer.Mac))
+                        {
+                            <br />
+                        }
+                        else if (string.IsNullOrEmpty(customer.IP) && string.IsNullOrEmpty(customer.Mac))
+                        {
+                            <span>-</span>
+                        }
+                        @customer.Mac
+                    </td>
+                    <td class="text-end align-middle">
+                        <button class="btn btn-link text-danger" @onclick="@(_ => DeleteCustomer(customer))">Delete</button>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}

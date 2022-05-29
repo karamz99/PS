@@ -1,0 +1,22 @@
+﻿@page "/Status"
+@using PS.Data
+@using PS.Services
+@attribute [Authorize]
+<PageTitle>Status page</PageTitle>
+
+@if (!loading && groups != null && customers != null)
+{
+    <div class="card mb-3"><div class="card-body">Status page</div></div>
+
+    <div class="card">
+        <div class="card-body p-0">
+            <table class="table table-striped mb-0">
+                <tbody>
+                    <tr><td>Groups:</td><td width="100%">@groups.Count</td></tr>
+                    <tr><td>Customers:</td><td width="100%">@customers.Count</td></tr>
+                    <tr><td>Blacklist:</td><td width="100%">@ProxyService.BlackList.Count() sites</td></tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+}

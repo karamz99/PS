@@ -1,0 +1,9 @@
+﻿@page "/Customers/{id:int}"
+@attribute [Authorize]
+<PageTitle>Customers of group</PageTitle>
+
+<Customers Id="Id" />
+
+@code{
+    [Parameter] public int Id{ get; set; }
+}
