@@ -30,7 +30,7 @@ namespace PS.Pages.Settings.Blacklist
 
         async Task CreateUrl()
         {
-            var modal = Modal.Show<CreateUpdate>("Add url to blacklist ");
+            var modal = Modal.Show<CreateUpdate>("Add url to block list ");
             var modalResult = await modal.Result;
             if (!modalResult.Cancelled)
                 await FillBlacklist();

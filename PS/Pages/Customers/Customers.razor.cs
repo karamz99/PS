@@ -38,7 +38,7 @@ namespace PS.Pages.Customers
 
         async Task CreateCustomer()
         {
-            var modal = Modal.Show<CreateUpdate>("Create new customer");
+            var modal = Modal.Show<CreateUpdate>("Create new user");
             var modalResult = await modal.Result;
             if (!modalResult.Cancelled)
                 await FillCustomers();
@@ -48,7 +48,7 @@ namespace PS.Pages.Customers
         {
             var mp = new ModalParameters();
             mp.Add(nameof(Customer.Id), customer.Id);
-            var modal = Modal.Show<CreateUpdate>("Update customer", mp);
+            var modal = Modal.Show<CreateUpdate>("Update user", mp);
             var modalResult = await modal.Result;
             if (!modalResult.Cancelled)
                 await FillCustomers();
@@ -56,7 +56,7 @@ namespace PS.Pages.Customers
 
         async Task DeleteCustomer(Customer? customer)
         {
-            if (await JS.DisplayConfirm("Delete customer", "Are you sure to delete selected customer?"))
+            if (await JS.DisplayConfirm("Delete user", "Are you sure to delete selected user?"))
             {
                 var customerInDb = await context.Customers.FirstOrDefaultAsync(x => x.Id == customer.Id);
                 if (customerInDb != null)

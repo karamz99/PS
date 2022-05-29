@@ -17,7 +17,7 @@ namespace PS.Data
         public Group? Group { get; set; }
 
         [Required]
-        [Display(Name = "Customer name")]
+        [Display(Name = "User name")]
         public string? Name { get; set; }
 
         [Required]

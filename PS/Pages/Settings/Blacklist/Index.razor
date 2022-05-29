@@ -1,18 +1,18 @@
 ﻿@page "/Settings/Blacklist"
 @attribute [Authorize]
-<PageTitle>Blacklist</PageTitle>
+<PageTitle>Block list</PageTitle>
 
-<h3>Blacklist <span class="small">@(blacklist?.Any() == true ? $"{blacklist.Count} url" : null)</span></h3>
+<h3>Block list <span class="small">@(blacklist?.Any() == true ? $"{blacklist.Count} url" : null)</span></h3>
 <div>
     <button class="btn btn-link text-primary" @onclick="CreateUrl">New Url</button>
 </div>
 @if (blacklist == null)
 {
-    <h5>Loading blacklist...</h5>
+    <h5>Loading block list...</h5>
 }
 else if (!blacklist.Any())
 {
-    <h5>Blacklist is empty!</h5>
+    <h5>Block list is empty!</h5>
 }
 else
 {

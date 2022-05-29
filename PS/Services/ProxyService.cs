@@ -262,7 +262,7 @@ namespace PS.Services
 
             // To cancel a request with a custom HTML content
             // Filter URL
-            if (BlackList.Any(x => e.HttpClient.Request.RequestUri.AbsoluteUri.Contains(x)))
+            if (BlackList.Any(x => e.HttpClient.Request.RequestUri.AbsoluteUri.ToLower().Contains(x)))
                 e.Ok("<!DOCTYPE html>" +
                     "<html><body><h1>" +
                     "Website Blocked" +

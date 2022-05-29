@@ -38,15 +38,25 @@ namespace PS.Pages.Settings.Blacklist
             var errors = new Dictionary<string, List<string>>();
 
             blackList.Saving = true;
+            blackList.Url = blackList.Url.ToLower();
 
-            if (await context.Groups.AnyAsync(x => x.Name == blackList.Url && x.Id != blackList.Id))
-                errors.Add(nameof(Group.Name), new() { "This url added." });
-
-            if (errors.Any())
-                CsValidation.DisplayErrors(errors);
+            if (blackList.Id > 0)
+            {
+                if (await context.BlackLists.AnyAsync(x => x.Url == blackList.Url && x.Id != blackList.Id))
+                    errors.Add(nameof(Group.Name), new() { "This url added." });
+            }
             else
             {
-                blackList.Url = blackList.Url.ToLower();
+                if (await context.BlackLists.AnyAsync(x => x.Url == blackList.Url))
+                    errors.Add(nameof(Group.Name), new() { "This url added." });
+            }
+            if (errors.Any())
+            {
+                CsValidation.DisplayErrors(errors);
+                StateHasChanged();
+            }
+            else
+            {
                 if (blackList.Id == 0) await context.BlackLists.AddAsync(blackList);
                 await context.SaveChangesAsync();
 
